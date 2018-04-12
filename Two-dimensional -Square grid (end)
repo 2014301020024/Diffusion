@@ -8,9 +8,8 @@ Created on Sat Apr 07 16:08:43 2018
 #二维正方格子
 #这里以 10 * 10 为例，因为100 * 100 的格子 spider右边运行框不太好观察
 #当改动网格数目的时候，aid1存取随机位置的方法需要稍作改变，比如 100 * 100，需要改为 * 1000
+#库
 from random import randint
-
-
 
 
 
@@ -40,7 +39,7 @@ def random_col(gd):
 #am_c = atom_col
 aid1 = []
 i = 0
-while i in range(98):
+while i in range(98):#这里产生了98个，可以自己调整
     am_r = random_row(gd)
     am_c = random_col(gd)
     #print (am_r,am_c)
@@ -55,13 +54,7 @@ print
 print
 
 #random walk
-#下面的lower仅仅相当于原子运动方向为基准
-#lower = grid[atom_row + a][atom_col + b]
-#start = grid[atom_row][atom_col]
-#upper = grid[atom_row - a][atom_col - b]
-#left  = grid[atom_row - b][atom_col + a]
-#right = grid[atom_row + b][atom_col - a]
-for num in range(100):
+for num in range(100):#这里每个原子进行了100步
     num1 = 0
     while num1 < len(aid1):
         num2 = int(aid1[num1])
@@ -164,3 +157,5 @@ print ()
 print ()
 print ()
 print_gd(gd)
+
+#作图稍后补充
