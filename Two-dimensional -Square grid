@@ -32,7 +32,7 @@ def random_col(gd):
 #am_c = atom_col
 aid1 = []
 i = 0
-while i in range(50):#设置初始的原子个数，即占据数，这里才赢随机产生
+while i in range(50):#设置初始的原子个数，即占据数，随机位置产生原子
     am_r = random_row(gd)
     am_c = random_col(gd)
     #print atom_row,atom_col
