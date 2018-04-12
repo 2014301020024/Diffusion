@@ -1,0 +1,149 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr 12 21:22:29 2018
+
+@author: Autistic
+"""
+from random import randint
+#1.first contruct the grid
+#gd = grid
+#若用 100 * 100，则12 改成102,10改成100,100改成1000即可
+#这里100 * 100 ，spider不太好观察
+gd = []
+gd.append(["·"] *12)
+for i in range(10):
+    gd.append(["·"] + ["o"] * 10 + ["·"])
+gd.append(["·"] * 12)
+
+def print_gd(gd):
+    for row in gd:
+        print  (" ".join(row))
+
+#2.random row/column function
+
+def random_row(gd):
+    return randint(1,10)
+
+def random_col(gd):
+    return randint(1,10)
+
+#3.produce random place
+#am_r = atom_row
+#am_c = atom_col
+aid1 = []
+i = 0
+while i in range(50):#设置初始的原子个数，即占据数，这里才赢随机产生
+    am_r = random_row(gd)
+    am_c = random_col(gd)
+    #print atom_row,atom_col
+    if gd[am_r][am_c] == "o":
+       aid1.append(am_r * 100 + am_c)
+       gd[am_r][am_c] = "X"
+       i = i + 1
+print (aid1)   
+print_gd(gd)  
+print
+#print
+
+#random walk
+#lower = grid[atom_row + a][atom_col + b]
+#start = grid[atom_row][atom_col]
+#upper = grid[atom_row - a][atom_col - b]
+#left  = grid[atom_row - b][atom_col + a]
+#right = grid[atom_row + b][atom_col - a]
+for num in range(100):#这里设置原子运动的步数
+    num1 = 0
+    while num1 < len(aid1):
+        num2 = int(aid1[num1])
+        #print (num2)
+        am_c = num2 % 100    
+        am_r = int((num2 - am_c) / 100)
+        #print (am_r,am_c)
+        probab = randint(1,10000)/10000
+        #print (probab)
+        if probab > 0.5:#这里的0.5即指代扩散的exp[(-Delta G)/RT]
+            gd[am_r][am_c] = "o"
+            e = randint(1,4)
+            if e == 1:
+                a = 1
+                b = 0
+            elif e == 2:
+                a = -1
+                b =  0
+            elif e == 3:
+                a =  0
+                b =  1
+            else:
+                a =  0
+                b =  -1
+            #print (a,b)
+            if  gd[am_r + a][am_c + b] == "o":
+                gd[am_r + a][am_c + b] = "X"        
+                aid1[num1] = (am_r + a) * 100 + (am_c + b)
+            else: 
+                if gd[am_r - a][am_c - b] == "o" and \
+                   gd[am_r - b][am_c + a] == "o" and \
+                   gd[am_r + b][am_c - a] == "o":
+                    c = randint(1,3)
+                    #print c
+                    if c == 1:
+                        gd[am_r - b][am_c + a] = "X"
+                        aid1[num1] = (am_r - b) * 100 + (am_c + a)
+                    elif c == 2:
+                        gd[am_r + b][am_c - a] = "X"
+                        aid1[num1] = (am_r + b) * 100 + (am_c - a)
+                    else:
+                        gd[am_r - a][am_c - b] = "X"
+                        aid1[num1] = (am_r - a) * 100 + (am_c - b)
+                else:
+                    if gd[am_r - a][am_c - b] == "X" or gd[am_r - a][am_c - b] == "·":
+                        if gd[am_r - b][am_c + a] == "o" and gd[am_r + b][am_c - a] == "o":
+                            d = randint(1,2)
+                            if d == 1:
+                                gd[am_r - b][am_c + a] = "X"
+                                aid1[num1] = (am_r - b) * 100 + (am_c + a)
+                            else:
+                                gd[am_r + b][am_c - a] = "X"
+                                aid1[num1] = (am_r + b) * 100 + (am_c - a)
+                        elif (gd[am_r - b][am_c + a] == "X" or gd[am_r - b][am_c + a] == "·") and \
+                         gd[am_r + b][am_c - a] == "o":
+                            gd[am_r + b][am_c - a] = "X"
+                            aid1[num1] = (am_r + b) * 100 + (am_c - a)
+                        elif gd[am_r - b][am_c + a] == "o" and \
+                        (gd[am_r + b][am_c - a] == "X" or gd[am_r + b][am_c - a] == "·"):
+                            gd[am_r - b][am_c + a] = "X"
+                            aid1[num1] = (am_r - b) * 100 + (am_c + a)
+                        else:
+                            gd[am_r][am_c] = "X"
+                    else:
+                        if gd[am_r - b][am_c + a] == "o" and \
+                        (gd[am_r + b][am_c - a] == "X" or gd[am_r + b][am_c - a] == "·"):
+                            d= randint(1,2)
+                            if d == 1: 
+                                gd[am_r - b][am_c + a] = "X"
+                                aid1[num1] = (am_r - b) * 100 + (am_c + a)
+                            else:
+                                gd[am_r - a][am_c - b] = "X"
+                                aid1[num1] = (am_r - a) * 100 + (am_c - b)
+                        elif (gd[am_r - b][am_c + a] == "X" or gd[am_r - b][am_c + a] == "·")and \
+                        gd[am_r + b][am_c - a] == "o":
+                            d= randint(1,2)
+                            if d == 1:
+                                gd[am_r - a][am_c - b] = "X"
+                                aid1[num1] = (am_r - a) * 100 + (am_c - b)
+                            else:
+                                gd[am_r + b][am_c - a] = "X"
+                                aid1[num1] = (am_r + b) * 100 + (am_c - a)
+                        else:
+                            gd[am_r - a][am_c - b] = "X"
+                            aid1[num1] = (am_r - a) * 100 + (am_c - b)
+        else:
+            gd[am_r][am_c] = "X" 
+        num1 = num1 + 1 
+        #print (num1)
+        #print_gd(gd)
+
+#print ()
+#print ()
+print ()
+print_gd(gd)
