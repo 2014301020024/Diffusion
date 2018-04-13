@@ -57,14 +57,14 @@ print
 for num in range(100):#这里每个原子进行了100步
     num1 = 0
     while num1 < len(aid1):
-        num2 = int(aid1[num1])
+        num2 = int(aid1[num1])  #取出前面存入的数
         #print (num2)
         #print ()
         #print ()
-        am_c = num2 % 100    
+        am_c = num2 % 100       #将数复原为行和列
         am_r = int((num2 - am_c) / 100)
         #print (am_r,am_c)
-        probab = randint(1,10000)/10000
+        probab = randint(1,10000)/10000  #产生随机概率
         #print (probab)
         if probab > 0.5:#这里的0.5即指代扩散的exp[(-Delta G)/RT]
               if  gd[am_r + 1][am_c + 0] == "o" and gd[am_r - 1][am_c + 0] == "o" and \
