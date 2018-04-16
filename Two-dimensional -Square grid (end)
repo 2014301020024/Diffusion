@@ -13,8 +13,6 @@ from random import randint
 
 
 
-
-
 #1.first contruct the grid
 #gd = grid
 gd = []
@@ -39,34 +37,41 @@ def random_col(gd):
 #am_r = atom_row
 #am_c = atom_col
 aid1 = []
-i = 0
-while i in range(90):
+i = 0  # 标记原子
+while i in range(5):   
     am_r = random_row(gd)
     am_c = random_col(gd)
     #print (am_r,am_c)
     if gd[am_r][am_c] == "o":
        aid1.append(am_r * 100 + am_c)
-       gd[am_r][am_c] = "X"
-       i = i + 1
+       gd[am_r][am_c] = str(i+1)
+       i = i + 1 #对下一个原子标记
     else:i = i
 print (aid1)   
 print_gd(gd)  
 print
 print
 
+
 #random walk
-for num in range(10000):
+for num in range(1):   #设置步数
     num1 = 0
+    i = -1 
     while num1 < len(aid1):
         num2 = int(aid1[num1]) #取出存取的数
         am_c = num2 % 100      # 这两行将数复原
         am_r = int((num2 - am_c) / 100)
         #print (am_r,am_c)
-        probab = randint(1,10000)/10000  #产生可能性
+        i = i + 1 #对原子行走结果标记/依次
+        probab = randint(1,10000)/10000 
+        #print (probab)#产生可能性
+        #print ()
         if probab > 0.5:#这里的0.5即指代扩散的exp[(-Delta G)/RT]
               if  gd[am_r + 1][am_c] == "o" and gd[am_r - 1][am_c] == "o" and \
               gd[am_r][am_c + 1] == "o" and gd[am_r][am_c - 1] == "o":
                   e = randint(1,4)
+                  #print (e)
+                  #print ()
                   if e == 1:
                       a = 1
                       b = 0
@@ -80,7 +85,7 @@ for num in range(10000):
                       a = 0
                       b = -1
                   gd[am_r][am_c] = "o"
-                  gd[am_r + a][am_c + b] = "X"
+                  gd[am_r + a][am_c + b] = str(i+1)
                   aid1[num1]= (am_r + a) * 100 + (am_c + b)
               else:
                  if gd[am_r + 1][am_c] != "o":
@@ -90,10 +95,10 @@ for num in range(10000):
                          gd[am_r][am_c] = "o"
                          c = randint(1,3)
                          if c == 1:
-                            gd[am_r - 1][am_c] = "X"
+                            gd[am_r - 1][am_c] = str(i+1)
                             aid1[num1] = (am_r - 1) * 100 + (am_c)
                          elif c == 2:
-                            gd[am_r][am_c + 1] = "X"
+                            gd[am_r][am_c + 1] = str(i+1)
                             aid1[num1] = (am_r) * 100 + (am_c + 1)
                          else:
                             gd[am_r][am_c - 1] = "X"
@@ -104,43 +109,43 @@ for num in range(10000):
                                gd[am_r][am_c] = "o"
                                d = randint(1,2)
                                if d == 1:
-                                  gd[am_r][am_c + 1] = "X"
+                                  gd[am_r][am_c + 1] = str(i+1)
                                   aid1[num1] = (am_r) * 100 + (am_c + 1)
                                else:
-                                  gd[am_r][am_c - 1] = "X"
+                                  gd[am_r][am_c - 1] = str(i+1)
                                   aid1[num1] = (am_r) * 100 + (am_c - 1)
                             elif gd[am_r][am_c + 1] != "o" and gd[am_r][am_c - 1] == "o":
                                 gd[am_r][am_c] = "o"
-                                gd[am_r][am_c - 1] = "X"
+                                gd[am_r][am_c - 1] = str(i+1)
                                 aid1[num1] = (am_r) * 100 + (am_c - 1)
                             elif gd[am_r][am_c + 1] == "o" and gd[am_r][am_c - 1] != "o":
                                 gd[am_r][am_c] = "o"
-                                gd[am_r][am_c + 1] = "X"
+                                gd[am_r][am_c + 1] = str(i+1)
                                 aid1[num1] = (am_r) * 100 + (am_c + 1)
                             else:
-                                gd[am_r][am_c] = "X"
+                                gd[am_r][am_c] = str(i+1)
                          else:
                             if gd[am_r][am_c + 1] == "o" and gd[am_r][am_c - 1] != "o":
                                gd[am_r][am_c] = "o"
                                d= randint(1,2)
                                if d == 1: 
-                                  gd[am_r][am_c + 1] = "X"
+                                  gd[am_r][am_c + 1] = str(i+1)
                                   aid1[num1] = (am_r) * 100 + (am_c + 1)
                                else:
-                                  gd[am_r - 1][am_c] = "X"
+                                  gd[am_r - 1][am_c] = str(i+1)
                                   aid1[num1] = (am_r - 1) * 100 + (am_c)
                             elif gd[am_r][am_c + 1] != "o" and gd[am_r][am_c - 1] == "o":
                                gd[am_r][am_c] = "o"
                                d= randint(1,2)
                                if d == 1:
-                                  gd[am_r - 1][am_c] = "X"
+                                  gd[am_r - 1][am_c] = str(i+1)
                                   aid1[num1] = (am_r - 1) * 100 + (am_c)
                                else:
-                                  gd[am_r][am_c - 1] = "X"
+                                  gd[am_r][am_c - 1] = str(i+1)
                                   aid1[num1] = (am_r) * 100 + (am_c - 1)
                             else:
                                gd[am_r][am_c] = "o"
-                               gd[am_r - 1][am_c] = "X"
+                               gd[am_r - 1][am_c] = str(i+1)
                                aid1[num1] = (am_r - 1) * 100 + (am_c)
                  else:
                      if gd[am_r - 1][am_c] != "o" and \
@@ -149,13 +154,13 @@ for num in range(10000):
                          gd[am_r][am_c] = "o"
                          c = randint(1,3)
                          if c == 1:
-                            gd[am_r + 1][am_c] = "X"
+                            gd[am_r + 1][am_c] = str(i+1)
                             aid1[num1] = (am_r + 1) * 100 + (am_c)
                          elif c == 2:
-                            gd[am_r + 0][am_c + 1] = "X"
+                            gd[am_r + 0][am_c + 1] = str(i+1)
                             aid1[num1] = (am_r) * 100 + (am_c + 1)
                          else:
-                            gd[am_r + 0][am_c - 1] = "X"
+                            gd[am_r + 0][am_c - 1] = str(i+1)
                             aid1[num1] = (am_r) * 100 + (am_c - 1)
                      elif gd[am_r - 1][am_c] == "o" and \
                       gd[am_r][am_c + 1] != "o" and \
@@ -163,13 +168,13 @@ for num in range(10000):
                          gd[am_r][am_c] = "o"
                          c = randint(1,3)
                          if c == 1:
-                            gd[am_r + 1][am_c] = "X"
+                            gd[am_r + 1][am_c] = str(i+1)
                             aid1[num1] = (am_r + 1) * 100 + (am_c)
                          elif c == 2:
-                            gd[am_r - 1][am_c] = "X"
+                            gd[am_r - 1][am_c] = str(i+1)
                             aid1[num1] = (am_r - 1) * 100 + (am_c)
                          else:
-                            gd[am_r][am_c - 1] = "X"
+                            gd[am_r][am_c - 1] = str(i+1)
                             aid1[num1] = (am_r) * 100 + (am_c - 1)
                      elif gd[am_r - 1][am_c] == "o" and \
                       gd[am_r][am_c + 1] == "o" and \
@@ -177,13 +182,13 @@ for num in range(10000):
                          gd[am_r][am_c] = "o"
                          c = randint(1,3)
                          if c == 1:
-                            gd[am_r + 1][am_c] = "X"
+                            gd[am_r + 1][am_c] = str(i+1)
                             aid1[num1] = (am_r + 1) * 100 + (am_c)
                          elif c == 2:
-                            gd[am_r - 1][am_c] = "X"
+                            gd[am_r - 1][am_c] = str(i+1)
                             aid1[num1] = (am_r - 1) * 100 + (am_c)
                          else:
-                            gd[am_r][am_c + 1] = "X"
+                            gd[am_r][am_c + 1] = str(i+1)
                             aid1[num1] = (am_r) * 100 + (am_c + 1)
                      else:
                          if gd[am_r - 1][am_c] != "o" and \
@@ -192,10 +197,10 @@ for num in range(10000):
                               gd[am_r][am_c] = "o"
                               c = randint(1,2)
                               if c == 1:
-                                  gd[am_r + 1][am_c] = "X"
+                                  gd[am_r + 1][am_c] = str(i+1)
                                   aid1[num1] = (am_r + 1) * 100 + (am_c)
                               else:
-                                  gd[am_r][am_c - 1] = "X"
+                                  gd[am_r][am_c - 1] = str(i+1)
                                   aid1[num1] = (am_r) * 100 + (am_c - 1)
                          elif gd[am_r - 1][am_c] != "o" and \
                            gd[am_r][am_c + 1] == "o" and \
@@ -203,10 +208,10 @@ for num in range(10000):
                                gd[am_r][am_c] = "o"
                                c = randint(1,2)
                                if c == 1:
-                                   gd[am_r + 1][am_c] = "X"
+                                   gd[am_r + 1][am_c] = str(i+1)
                                    aid1[num1] = (am_r + 1) * 100 + (am_c)
                                else:
-                                   gd[am_r][am_c + 1] = "X"
+                                   gd[am_r][am_c + 1] = str(i+1)
                                    aid1[num1] = (am_r) * 100 + (am_c + 1)
                          elif gd[am_r - 1][am_c] == "o" and \
                           gd[am_r][am_c + 1] != "o" and \
@@ -214,19 +219,19 @@ for num in range(10000):
                               gd[am_r][am_c] = "o"
                               c = randint(1,2)
                               if c == 1:
-                                  gd[am_r + 1][am_c] = "X"
+                                  gd[am_r + 1][am_c] = str(i+1)
                                   aid1[num1] = (am_r + 1) * 100 + (am_c)
                               else:
-                                  gd[am_r - 1][am_c] = "X"
+                                  gd[am_r - 1][am_c] = str(i+1)
                                   aid1[num1] = (am_r - 1) * 100 + (am_c)
                          else:
                             gd[am_r][am_c] = "o"
-                            gd[am_r + 1][am_c] = "X"
+                            gd[am_r + 1][am_c] = str(i+1)
                             aid1[num1] = (am_r + 1) * 100 + (am_c)     
         else:
-            gd[am_r][am_c] = "X" 
+            gd[am_r][am_c] = str(i+1)
         num1 = num1 + 1 
-print ()
+print () 
 print ()
 print ()
 print_gd(gd)
